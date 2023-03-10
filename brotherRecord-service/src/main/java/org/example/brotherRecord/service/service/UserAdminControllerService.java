@@ -1,5 +1,6 @@
 package org.example.brotherRecord.service.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -12,45 +13,47 @@ import org.example.brotherRecord.api.controller.UserAdminController;
 import org.example.brotherRecord.api.vo.LoginVO;
 import org.example.brotherRecord.api.vo.RegisterVO;
 import org.example.brotherRecord.service.utils.GetMessageUtils;
+import org.example.brotherRecord.service.utils.RedisClientUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.annotation.Resource;
 import java.util.concurrent.ExecutionException;
 
-@Controller
+@Service
+@Slf4j
 public class UserAdminControllerService implements UserAdminController {
+
+    @Resource
+    RedisClientUtils redisClientUtils;
+
     @Override
     public BrotherRecordResponse register(@RequestBody RegisterVO param) {
         BrotherRecordResponse brotherRecordResponse = new BrotherRecordResponse();
-//
-//        String test = testApi.getTest();
-//        brotherRecordResponse.setCode(0);
-//        brotherRecordResponse.setData("成功");
-//        brotherRecordResponse.setMsg(test);
+        redisClientUtils.set(param.getUserName(), param.getPassword(),1000*60*60);
+        brotherRecordResponse.setCode(0);
+        brotherRecordResponse.setMsg("注册成功");
+        brotherRecordResponse.setData(param.getUserName());
         return brotherRecordResponse;
     }
 
     @Override
     public BrotherRecordResponse login(@RequestBody LoginVO param) {
-        System.out.println(1);
         BrotherRecordResponse brotherRecordResponse = new BrotherRecordResponse();
-        try {
-            IniSecurityManagerFactory iniSecurityManagerFactory = new IniSecurityManagerFactory("classpath:shiro.ini");
-            SecurityManager instance = iniSecurityManagerFactory.getInstance();
-            SecurityUtils.setSecurityManager(instance);
-            Subject subject = SecurityUtils.getSubject();
-            AuthenticationToken token = new UsernamePasswordToken(param.getUserName(), param.getPassWord());
-            subject.login(token);
+        String passWord = (String)redisClientUtils.get(param.getUserName());
+        log.info("password={},getPassWord()={}",passWord,param.getPassWord());
+        if(passWord.equals(param.getPassWord())){
             brotherRecordResponse.setCode(0);
             brotherRecordResponse.setMsg("登录成功");
             brotherRecordResponse.setData(param.getUserName());
-        } catch (Exception e) {
+        }else {
             brotherRecordResponse.setCode(1);
             brotherRecordResponse.setMsg("登录失败");
             brotherRecordResponse.setData(param.getUserName());
         }
         return brotherRecordResponse;
-
     }
 
     @Override

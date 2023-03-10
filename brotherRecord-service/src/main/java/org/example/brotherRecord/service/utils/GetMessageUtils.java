@@ -20,7 +20,7 @@ public class GetMessageUtils {
 
         // Configure the Client
         AsyncClient client = AsyncClient.builder()
-                .region("undefined") // Region ID
+                .region("cn-wulanchabu") // Region ID
                 .credentialsProvider(provider)
                 .overrideConfiguration(
                         ClientOverrideConfiguration.create()
@@ -29,8 +29,10 @@ public class GetMessageUtils {
                 .build();
 
         SendSmsRequest sendSmsRequest = SendSmsRequest.builder()
+                .signName("阿里云短信测试")
+                .templateCode("SMS_154950909")
                 .phoneNumbers(phoneNumber)
-                .signName("郭一洋个人博客")
+                .templateParam("{\"code\":\"1234\"}")
                 .build();
 
 

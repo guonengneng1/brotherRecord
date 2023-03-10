@@ -15,10 +15,19 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping(value = ApiConstant.URL_PREFIX)
 @RestController
 public interface UserAdminController {
+    /**
+     * 登录
+     */
     @PostMapping("register")
     public BrotherRecordResponse register(@RequestBody RegisterVO param);
+    /**
+     * 注册
+     */
     @PostMapping("/login")
     public BrotherRecordResponse login(@RequestBody LoginVO param);
+    /**
+     * 获取短信验证码
+     */
     @PostMapping("/sendShortMessage")
     public BrotherRecordResponse sendShortMessage(@RequestBody SendShortMessageVO param);
 }
