@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginVo {
-    private String userName;
-    private String passWord;
+public class ChatGPTVO {
+    private String prompt;
 }

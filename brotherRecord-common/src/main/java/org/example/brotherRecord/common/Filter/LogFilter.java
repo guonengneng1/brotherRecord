@@ -4,13 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.jws.WebService;
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
 public class LogFilter implements Filter {
+
     private static final Logger LOG = LoggerFactory.getLogger(LogFilter.class);
 
     @Override
@@ -30,4 +32,10 @@ public class LogFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
         LOG.info("------------- LogFilter 结束 耗时：{} ms -------------", System.currentTimeMillis() - startTime);
     }
+
+    @Override
+    public void destroy() {
+
+    }
+
 }

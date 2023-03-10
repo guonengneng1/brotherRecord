@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class GetMessageUtils {
-    public static String getShortMessage() throws ExecutionException, InterruptedException {
+    public static String getShortMessage(String phoneNumber) throws ExecutionException, InterruptedException {
         StaticCredentialProvider provider = StaticCredentialProvider.create(Credential.builder()
                 .accessKeyId(BrotherRecordConstant.ACCESS_KEY_ID)
                 .accessKeySecret(BrotherRecordConstant.ACCESS_KEY_SECRET).build());
@@ -29,18 +29,17 @@ public class GetMessageUtils {
                 .build();
 
         SendSmsRequest sendSmsRequest = SendSmsRequest.builder()
-                .phoneNumbers("18149419545")
-                .signName("your_value")
+                .phoneNumbers(phoneNumber)
+                .signName("郭一洋个人博客")
                 .build();
 
 
         CompletableFuture<SendSmsResponse> response = client.sendSms(sendSmsRequest);
 
         SendSmsResponse resp = response.get();
-        System.out.println(new Gson().toJson(resp));
 
         client.close();
 
-        return "";
+        return new Gson().toJson(resp);
     }
 }

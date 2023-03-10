@@ -3,7 +3,7 @@ package org.example.brotherRecord.service.service;
 
 import org.example.brotherRecord.common.BrotherRecordResponse;
 import org.example.brotherRecord.api.controller.ChatGptController;
-import org.example.brotherRecord.api.vo.ChatGPTVo;
+import org.example.brotherRecord.api.vo.ChatGPTVO;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -60,7 +60,7 @@ public class chatGPTService implements ChatGptController {
     private static final String OPENAI_API_KEY = "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";
     private static final String OPENAI_COMPLETIONS_ENDPOINT = "https://api.openai.com/v1/chat/completions";
     @Override
-    public  BrotherRecordResponse chatGPT(@RequestBody ChatGPTVo request) {
+    public  BrotherRecordResponse chatGPT(@RequestBody ChatGPTVO request) {
         BrotherRecordResponse brotherRecordResponse =new BrotherRecordResponse();
         String response="初始化";
         try {
