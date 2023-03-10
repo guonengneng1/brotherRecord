@@ -1,0 +1,5 @@
+# 项目排除路径
+/brotherRecord-api/target/
+/brotherRecord-common/target/
+/brotherRecord-dao/target/
+/brotherRecord-service/target/

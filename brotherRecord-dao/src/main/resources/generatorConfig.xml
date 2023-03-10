@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+         <!DOCTYPE generatorConfiguration PUBLIC
+             "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+                "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<!-- 配置生成器 -->
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- Example 目标包修改插件 -->
+        <plugin type="com.itfsw.mybatis.generator.plugins.ExampleTargetPlugin">
+            <!-- 修改Example类生成到目标包下 -->
+            <property name="targetPackage" value="org.example.brotherRecord.dao.example"/>
+        </plugin>
+<!--        &lt;!&ndash; 生成模型的包名和位置&ndash;&gt;-->
+<!--        &lt;!&ndash; 从数据库中的字段的comment做为生成entity的属性注释 &ndash;&gt;-->
+<!--        &lt;!&ndash; 自定义注释插件 &ndash;&gt;-->
+
+        <commentGenerator type="com.edison.CommentGenerator">
+            <property name="author" value="tsn"/>
+            <property name="allArgsConstructor" value="false"/>
+            <property name="noArgsConstructor" value="false"/>
+            <property name="toString" value="false"/>
+            <property name="builder.toBuilder" value="true"/>
+            <property name="builder" value="true"/>
+        </commentGenerator>
+
+
+        <!-- 数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://39.101.78.244:3306/brother_record?useUnicode=true?characterEncoding=utf-8?serverTimezone=GMT%2B8"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!-- 是否使用BigDecimals，false可自动转化以下类型(Long Integer Short等) -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+
+
+        <javaModelGenerator targetPackage="org.example.brotherRecord.dao.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成映射文件的包名和位置-->
+        <sqlMapGenerator targetPackage="mappers" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.example.brotherRecord.dao.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
+        <table tableName="user_management" domainObjectName="UserManagement" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="true"/>
+            <!-- 数据库表主键 -->
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+
+
+    </context>
+</generatorConfiguration>
