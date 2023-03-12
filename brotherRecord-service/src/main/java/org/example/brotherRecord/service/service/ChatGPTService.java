@@ -4,6 +4,7 @@ package org.example.brotherRecord.service.service;
 import org.example.brotherRecord.common.BrotherRecordResponse;
 import org.example.brotherRecord.api.controller.ChatGptController;
 import org.example.brotherRecord.api.vo.ChatGPTVO;
+import org.example.brotherRecord.service.service.chatGpt.Gpt3Client;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
-public class chatGPTService implements ChatGptController {
+public class ChatGPTService implements ChatGptController {
 
     @Override
     public BrotherRecordResponse chatGPTGetModel(){
@@ -61,28 +62,30 @@ public class chatGPTService implements ChatGptController {
     private static final String OPENAI_COMPLETIONS_ENDPOINT = "https://api.openai.com/v1/chat/completions";
     @Override
     public  BrotherRecordResponse chatGPT(@RequestBody ChatGPTVO request) {
+
         BrotherRecordResponse brotherRecordResponse =new BrotherRecordResponse();
         String response="初始化";
         try {
 
-            URL url = new URL(OPENAI_COMPLETIONS_ENDPOINT);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", "Bearer " + OPENAI_API_KEY);
-
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-
-                StringBuilder responseBuilder = new StringBuilder();
-                String responseLine;
-
-                while ((responseLine = reader.readLine()) != null) {
-                    responseBuilder.append(responseLine.trim());
-                }
-
-                 response = responseBuilder.toString();
-                System.out.println(response);
-            }
+//            URL url = new URL(OPENAI_COMPLETIONS_ENDPOINT);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//            connection.setRequestProperty("Authorization", "Bearer " + OPENAI_API_KEY);
+//            try (BufferedReader reader = new BufferedReader(
+//                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+//
+//                StringBuilder responseBuilder = new StringBuilder();
+//                String responseLine;
+//
+//                while ((responseLine = reader.readLine()) != null) {
+//                    responseBuilder.append(responseLine.trim());
+//                }
+//
+//                 response = responseBuilder.toString();
+//                System.out.println(response);
+//            }
+            Gpt3Client gpt3Client =new Gpt3Client(OPENAI_API_KEY);
+            gpt3Client.generateText(request.getPrompt());
             brotherRecordResponse.setCode(0);
             brotherRecordResponse.setMsg("成功");
             brotherRecordResponse.setData(response);

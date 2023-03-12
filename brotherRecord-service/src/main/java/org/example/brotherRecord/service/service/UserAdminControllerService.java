@@ -55,7 +55,9 @@ public class UserAdminControllerService implements UserAdminController {
         }
         return brotherRecordResponse;
     }
-
+//    public UserDetails loadUserByUsername(String username){
+//
+//    }
     @Override
     public BrotherRecordResponse sendShortMessage(SendShortMessageVO param) {
         BrotherRecordResponse brotherRecordResponse = new BrotherRecordResponse();
