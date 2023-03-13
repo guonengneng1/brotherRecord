@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.example.brotherRecord.service.constant.BrotherRecordConstant;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,27 +18,25 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
+@Service
 public class Gpt3Client {
-    private static final String API_URL = "https://api.openai.com/v1/";
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private   String API_URL = "https://api.openai.com/v1/";
+    private   MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    private final String apiKey;
+    private  String apiKey;
     private final OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build();
-    private final Gson gson = new Gson();
 
-    public Gpt3Client(String apiKey) {
-        this.apiKey = apiKey;
-    }
 
     public String generateText(String prompt) throws IOException {
+        Gson gson = new Gson();
         RequestBody requestBody = RequestBody.create(JSON, gson.toJson(Collections.singletonMap("prompt", prompt)));
         Request request = new Request.Builder()
                 .url(API_URL + "completions")
-                .addHeader("Authorization", "Bearer " + apiKey)
+                .addHeader("Authorization", "Bearer " + BrotherRecordConstant.API_KEY)
                 .post(requestBody)
                 .build();
 

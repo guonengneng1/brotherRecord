@@ -84,8 +84,8 @@ public class ChatGPTService implements ChatGptController {
 //                 response = responseBuilder.toString();
 //                System.out.println(response);
 //            }
-            Gpt3Client gpt3Client =new Gpt3Client(OPENAI_API_KEY);
-            gpt3Client.generateText(request.getPrompt());
+            Gpt3Client gpt3Client =new Gpt3Client();
+            response = gpt3Client.generateText(request.getPrompt());
             brotherRecordResponse.setCode(0);
             brotherRecordResponse.setMsg("成功");
             brotherRecordResponse.setData(response);
